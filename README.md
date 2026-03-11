@@ -33,34 +33,27 @@ Features
 
 Requirements
 
-For Windows Batch Execution:
-- Windows operating system
-- Embedded Python executable (included in CLEANER/PYTHON_WIN/)
-
-For Manual Python Execution:
-- Python 3.6 or higher
-- No external dependencies required
+- Python 3.6 or higher installed on the system
+- No external dependencies required (standard library only)
 
 
 Installation
 
 1. Ensure the directory structure is properly set up:
    
-   ROOT/
+   CLEANER_V4/
    ├── DWUKLIK_ABY_CLEAN.bat
-   ├── CLEANER/
-   │   ├── PYTHON_WIN/
-   │   │   └── python.exe
-   │   └── SCRIPT/
-   │       ├── ts_clean_up.py
-   │       └── ts_watcher.py
-   ├── film1.ts
-   ├── nagranie.ts
-   └── (other .ts files)
+   ├── README.md
+   ├── SCRIPT/
+   │   ├── ts_clean_up.py
+   │   └── ts_watcher.py
+   ├── film1.ts (example - add your .ts files here)
+   ├── nagranie.ts (example - add your .ts files here)
+   └── (other .ts files to be processed)
 
 2. Place any .ts files to be processed in the same directory as the batch file.
 
-3. Ensure PYTHON_WIN/python.exe is properly installed and executable.
+3. For Windows batch execution, ensure Python is available on the system PATH, or update the batch file to point to a local Python installation.
 
 
 Usage
@@ -75,14 +68,13 @@ Double-click DWUKLIK_ABY_CLEAN.bat to start the watcher. The program will:
 
 Command Line (Windows):
 
-cmd> set PYTHON_EXE=path\to\python.exe
-cmd> %PYTHON_EXE% CLEANER\SCRIPT\ts_watcher.py
+cmd> python SCRIPT\ts_watcher.py
 
 Linux/macOS:
 
 python3 SCRIPT/ts_watcher.py
 
-The watcher will scan the parent directory of the SCRIPT folder for new .ts files.
+The watcher will scan the current directory for new .ts files.
 
 
 Project Structure
@@ -90,14 +82,11 @@ Project Structure
 CLEANER_V4/
 ├── README.md                     (this file)
 ├── DWUKLIK_ABY_CLEAN.bat        (Windows launcher script)
-├── CLEANER/
-│   ├── PYTHON_WIN/
-│   │   └── python.exe            (embedded Python interpreter)
-│   └── SCRIPT/
-│       ├── ts_clean_up.py        (core cleaning algorithm)
-│       └── ts_watcher.py         (file monitoring system)
+├── SCRIPT/
+│   ├── ts_clean_up.py           (core cleaning algorithm)
+│   └── ts_watcher.py            (file monitoring system)
 ├── film1.ts                      (example input files)
-├── nagranie.ts
+├── nagranie.ts                   (example input files)
 └── [processed outputs with _clean suffix]
 
 
@@ -137,17 +126,19 @@ Windows batch file that serves as the main entry point.
 
 Key Functions:
 - Sets ROOT directory to the batch file location
-- Defines paths to embedded Python and watcher script
-- Validates that both Python executable and watcher script exist
+- Defines path to watcher script in SCRIPT subfolder
+- Validates that the watcher script exists
 - Launches ts_watcher.py with proper error handling
-- Displays meaningful error messages in Polish if components are missing
+- Displays meaningful error messages if components are missing
+
+Note: This batch file is configured for a system with Python installed and available in the PATH, or can be modified to point to a specific Python installation.
 
 ts_watcher.py
 
 Main file monitoring and orchestration script.
 
 Key Functions:
-- get_root_dir(): Calculates the root directory from CLEANER\SCRIPT location
+- get_root_dir(): Calculates the root directory (parent of SCRIPT folder)
 - wait_for_stable_size(): Blocks execution until target file size stabilizes
 - sanitize_name(): Replaces spaces with underscores in filenames
 - main(): Primary event loop that monitors, detects, and queues files for processing
@@ -211,18 +202,19 @@ Output file: filename_clean.ts (spaces converted to underscores)
 
 Troubleshooting
 
-"Nie znaleziono Pythona" (Python not found):
-- Verify PYTHON_WIN\python.exe exists
-- Check that the path in the batch file is correct
-- Ensure the Python executable has proper permissions
+"Python not found" or script won't run:
+- Verify Python 3.6+ is installed on your system
+- Check that python or python3 is available in system PATH
+- On Windows, ensure Python was installed with "Add Python to PATH" option
+- Or specify the full path to Python in the batch file
 
-"Nie znaleziono skryptu" (Script not found):
-- Verify SCRIPT\ts_watcher.py and ts_clean_up.py exist
+Script file not found error:
+- Verify SCRIPT/ts_watcher.py and ts_clean_up.py exist
 - Check directory structure matches the expected layout
 - Ensure file permissions allow reading
 
 No output or "OCZEKIWANIE" status:
-- Verify .ts files are in the correct directory (same as .bat file)
+- Verify .ts files are in the root directory (same as .bat file)
 - Check that the watcher has permission to read the directory
 - Confirm .ts files are valid and not being continuously written
 
