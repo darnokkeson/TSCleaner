@@ -7,10 +7,9 @@ Table of Contents
 3. Requirements
 4. Installation
 5. Usage
-6. Project Structure
-7. How It Works
-8. Files Description
-9. Configuration
+6. How It Works
+7. Files Description
+8. Configuration
 
 
 Overview
@@ -39,21 +38,13 @@ Requirements
 
 Installation
 
-1. Ensure the directory structure is properly set up:
-   
-   CLEANER_V4/
-   ├── DWUKLIK_ABY_CLEAN.bat
-   ├── README.md
-   ├── SCRIPT/
-   │   ├── ts_clean_up.py
-   │   └── ts_watcher.py
-   ├── film1.ts (example - add your .ts files here)
-   ├── nagranie.ts (example - add your .ts files here)
-   └── (other .ts files to be processed)
+1. Clone or download the repository.
 
-2. Place any .ts files to be processed in the same directory as the batch file.
+2. Ensure Python 3.6 or higher is installed and available in your system PATH.
 
-3. For Windows batch execution, ensure Python is available on the system PATH, or update the batch file to point to a local Python installation.
+3. Place any .ts files to be processed in the root directory (same location as DWUKLIK_ABY_CLEAN.bat).
+
+4. The SCRIPT folder must contain both ts_watcher.py and ts_clean_up.py files.
 
 
 Usage
@@ -62,7 +53,7 @@ Windows (Recommended):
 
 Double-click DWUKLIK_ABY_CLEAN.bat to start the watcher. The program will:
 - Display initialization information
-- Print "[OCZEKIWANIE] Waiting for new .ts files"
+- Print "[WAITING] Waiting for new .ts files"
 - Process files as they appear
 - Continue running until you press Ctrl+C
 
@@ -75,19 +66,6 @@ Linux/macOS:
 python3 SCRIPT/ts_watcher.py
 
 The watcher will scan the current directory for new .ts files.
-
-
-Project Structure
-
-CLEANER_V4/
-├── README.md                     (this file)
-├── DWUKLIK_ABY_CLEAN.bat        (Windows launcher script)
-├── SCRIPT/
-│   ├── ts_clean_up.py           (core cleaning algorithm)
-│   └── ts_watcher.py            (file monitoring system)
-├── film1.ts                      (example input files)
-├── nagranie.ts                   (example input files)
-└── [processed outputs with _clean suffix]
 
 
 How It Works
@@ -113,7 +91,7 @@ How It Works
    - Logs processing status and results
 
 5. Output:
-   - Original file: film1.ts becomes film1_clean.ts
+   - Original file: video1.ts becomes video1_clean.ts
    - Spaces in filenames are replaced with underscores
    - Original files are preserved
 
@@ -213,13 +191,13 @@ Script file not found error:
 - Check directory structure matches the expected layout
 - Ensure file permissions allow reading
 
-No output or "OCZEKIWANIE" status:
+No output or stuck on waiting status:
 - Verify .ts files are in the root directory (same as .bat file)
 - Check that the watcher has permission to read the directory
 - Confirm .ts files are valid and not being continuously written
 
 Processing fails silently:
-- Check console output for [BLAD] error messages
+- Check console output for [ERROR] messages
 - Verify input .ts file is valid MPEG-TS format
 - Check disk space for output file creation
 - Ensure write permissions in the output directory
