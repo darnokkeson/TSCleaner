@@ -32,8 +32,9 @@ Features
 
 Requirements
 
-- Python 3.6 or higher installed on the system
-- No external dependencies required (standard library only)
+- **Bundled runtime (Windows)**: Embedded Python **3.13** (see `CLEANER_V6/CLEANER/PYTHON_WIN/`).
+- **Running from source (Linux/macOS/Windows)**: Python **3.6+** installed on the system.
+- No external dependencies required (standard library only).
 
 
 Installation
