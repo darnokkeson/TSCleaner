@@ -112,6 +112,41 @@ Key Functions:
 
 Note: This batch file is configured for a system with Python installed and available in the PATH, or can be modified to point to a specific Python installation.
 
+2tsAnalyzer.py (standalone dropped packet analyzer)
+
+This is a standalone utility script to help locate missing/dropped MPEG-TS packets (e.g., continuity counter drops) and report their approximate timestamps and packet indices.
+
+Step 1) Estimate bitrate with `tsanalyze`
+
+Run:
+```
+tsanalyze file.ts
+```
+
+In the output, find a line similar to:
+```
+-------------------------------------------------------(based on 188 bytes)
+Estimated based on PCR's: ................ 4,657,148 b/s 
+```
+
+Interpret \(4,657,148\) b/s as \(\approx 4.65\) Mb/s, so the bitrate value to use is `4.65`.
+
+Step 2) Run `2tsAnalyzer.py` with `--bitrate`
+
+```
+python3 2tsAnalyzer.py file.ts --bitrate 4.65
+```
+
+The output will include approximate time and the packet index of missing packets:
+```
+  #      Approx. time     Packet index   Dropped
+  ------ ---------------- -------------- -------
+  1      00:35:29.491     6,583,866      1      
+  2      00:38:02.425     7,056,701      1 
+```
+
+NOTE: Verify the media duration/timebase so the reported times match the real program length.
+
 ts_watcher.py
 
 Main file monitoring and orchestration script.
